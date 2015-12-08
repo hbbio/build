@@ -47,8 +47,31 @@ function extract(s, base)
   return s:gsub("%%", base)
 end
 
+function read_defaults(ext)
+  -- TODO: multi-platform
+  local filename = os.getenv("HOME") .. "/.config/build.defaults"
+  local fh, err = io.open(filename)
+  if err then
+    print("no default settings found at ", filename)
+    return false
+  end
+  while true do
+    local line = fh:read()
+    if line == nil then return false end
+    local lext, lbuild = match(line, "([%a%d]+)%s*:%s*(.*)$")
+    if lext == ext then return lbuild end
+  end
+end
+
+function run(build, base)
+  local com = extract(build, base)
+  print("Running: ", com)
+  os.execute(com)
+  return true
+end
+
 function main(filename)
-  fh, err = io.open(filename)
+  local fh, err = io.open(filename)
   if err then
     print("can not read ", filename)
     return false
@@ -56,18 +79,27 @@ function main(filename)
 
   local path, base, ext = match(filename, "(.-)([^\\/]-)([^%.]+)$")
 
+  -- TODO: limit to first 100 lines?
   while true do
     local line = fh:read()
     if line == nil then break end
 
     local build = detect(line, ext)
-    if build then
-      local com = extract(build, base)
-      print("Running: ", com)
-      os.execute(com)
-      return true
-    end
+    if build then return run(build, base) end
   end
+
+  -- did not find command in file. Run default build command
+  default = read_defaults(ext)
+  if default then return run(default, base) end
+
+  -- we did not find any command
+  return false
+
 end
 
-main(arg[1])
+if main(arg[1]) then
+  return 0
+else
+  print("no command found, skipping")
+  return 1
+end
