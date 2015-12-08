@@ -25,8 +25,9 @@ The command can expand `%ext` to `filename.ext` automatically.
 
 Note that:
 
-- if the file does not contain a command, `build` does nothing
+- if the file does not contain a command, `build` attempts to load a default command for the file extension from `~/.config/build.defaults`
 - `build` succeeds and exits after the run command found
+
 
 ## installation
 
