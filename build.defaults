@@ -1,0 +1,7 @@
+c: gcc -Wall %c -o %out
+md: pandoc -N -o %pdf %md
+ml: ocamlopt str.cmxa unix.cmxa %ml -o %out
+msc: mscgen -T png -o %png %msc
+svg: qlmanage -t -s 1000 -o %png %svg
+tex: pdflatex %tex
+txt: pandoc -o %pdf %txt
