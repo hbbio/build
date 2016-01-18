@@ -70,7 +70,7 @@ function run(build, base)
   return true
 end
 
-function main(filename)
+function build_file(filename)
   local fh, err = io.open(filename)
   if err then
     print("can not read ", filename)
@@ -97,9 +97,23 @@ function main(filename)
 
 end
 
-if main(arg[1]) then
-  return 0
-else
-  print("no command found, skipping")
-  return 1
+function check_build_file(filename)
+  if build_file(filename) then
+    return 0
+  else
+    print(filename, ": no command found, skipping")
+    return 1
+  end
 end
+
+function main()
+  for i, file in pairs(arg) do
+    local res = 0
+    if i > 0 then
+      res = res + check_build_file(file)
+    end
+  end
+  return res
+end
+
+main()
