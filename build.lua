@@ -107,8 +107,8 @@ function check_build_file(filename)
 end
 
 function main()
+  local res = 0
   for i, file in pairs(arg) do
-    local res = 0
     if i > 0 then
       res = res + check_build_file(file)
     end
