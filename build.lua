@@ -31,7 +31,8 @@ function is_comment(s, ext)
   return
     match(s, "#%s*(.*)$") or
     match(s, "//%s*(.*)$") or
-    match(s, "<!%-%-%s*(.*)%s*%-%->")
+    match(s, "<!%-%-%s*(.*)%s*%-%->") or
+    match(s, "%(%*%s*(.*)%*%)")
 end
 
 function detect(s, ext)
