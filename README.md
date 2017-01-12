@@ -23,6 +23,12 @@ And then run `lua build.lua anyfile`.
 A comment in the file should contain `@build command`.
 The command can expand `%ext` to `filename.ext` automatically.
 
+You can define multiple build types with the syntax:
+```
+@build-{type} command
+```
+The command can expand `%ext` to `filename.ext` automatically.
+The command can expand `%ext` to `filename.ext` automatically.
 Note that:
 
 - if the file does not contain a command, `build` attempts to load a default command for the file extension from `~/.config/build.defaults`
