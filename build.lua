@@ -38,9 +38,9 @@ end
 function detect(s, ext)
   local content = is_comment(s, ext)
   if content then
-    return match(content, "@build%s*(.*)$")
+    return match(content, "@build[%-]?([%a%d]*)%s+(.*)$")
   end
-  return nil
+  return nil, nil
 end
 
 function extract(s, base)
@@ -71,7 +71,7 @@ function run(build, base)
   return true
 end
 
-function build_file(filename)
+function build_file(ty_expected, filename)
   local fh, err = io.open(filename)
   if err then
     print("can not read ", filename)
@@ -85,8 +85,10 @@ function build_file(filename)
     local line = fh:read()
     if line == nil then break end
 
-    local build = detect(line, ext)
-    if build then return run(build, base) end
+    local ty, build = detect(line, ext)
+    if ty == ty_expected and build then 
+      return run(build, base)
+    end
   end
 
   -- did not find command in file. Run default build command
@@ -98,8 +100,8 @@ function build_file(filename)
 
 end
 
-function check_build_file(filename)
-  if build_file(filename) then
+function check_build_file(ty, filename)
+  if build_file(ty, filename) then
     return 0
   else
     print(filename, ": no command found, skipping")
@@ -109,9 +111,16 @@ end
 
 function main()
   local res = 0
+  local ty = ""
   for i, file in pairs(arg) do
     if i > 0 then
-      res = res + check_build_file(file)
+      local tmp = match(file, "^[%-](.*)")
+      if tmp then
+        ty = tmp
+        print("setting build type:", ty)
+      else
+        res = res + check_build_file(ty, file)
+      end
     end
   end
   return res
