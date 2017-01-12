@@ -86,7 +86,7 @@ function build_file(ty_expected, filename)
     if line == nil then break end
 
     local ty, build = detect(line, ext)
-    if ty == ty_expected and build then 
+    if (not ty_expected or ty == ty_expected) and build then 
       return run(build, base)
     end
   end
@@ -111,7 +111,7 @@ end
 
 function main()
   local res = 0
-  local ty = ""
+  local ty
   for i, file in pairs(arg) do
     if i > 0 then
       local tmp = match(file, "^[%-](.*)")
