@@ -18,7 +18,7 @@ or this line to a [mscgen](http://www.mcternan.me.uk/mscgen/) file:
 # @build mscgen -T png -o images/%png %msc
 ```
 
-And then run `lua build.lua anyfile`.
+And then run `build onefile.md` or `build *.md` to build multiple files at once.
 
 ## syntax
 
@@ -49,8 +49,18 @@ build -{type} [files]
 1. copy `build.lua` where you want;
 2. create a shell alias so that `build` invokes `lua /path/to/build.lua`.
 
+For instance, for:
+
+- bash, run: `alias build=lua /path/to/build.lua`
+- [fish](https://fishshell.com/), run: 
+
+```fish
+function build
+  lua /path/to/build.lua $argv
+end
+funcsave build
+```
+
 ## author
 
-`build` is written by Henri Binsztok
-
-Check out [Opa](http://opalang.org) and [Peps](https://github.com/MLstate/PEPS) if you want :)
+`build` is written by Henri Binsztok and licensed under the MIT license.
