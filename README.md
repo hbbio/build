@@ -9,7 +9,7 @@ Instead of having to write a separate `Makefile`, `build` reads the build instru
 Add this line to a markdown file:
 
 ```markdown
-<!-- @build pandoc -o %pdf %md -->
+<!-- @build pandoc -N --toc -o %pdf %md -->
 ```
 
 or this line to a [mscgen](http://www.mcternan.me.uk/mscgen/) file:
@@ -28,11 +28,11 @@ The command can expand `%ext` to `filename.ext` automatically.
 Note that:
 
 - if the file does not contain a command, `build` attempts to load a default command for the file extension from `~/.config/build.defaults`
-- `build` succeeds and exits after the run command found
+- `build` succeeds and exits after the run command is found
 
 ## build types
 
-You can define multiple build types with the syntax:
+You can define multiple build types with the following syntax (within files):
 ```
 @build-{type} command
 ```
