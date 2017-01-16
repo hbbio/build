@@ -1,6 +1,8 @@
 ## build
 
-`build` is a tiny tool that builds single files, for instance from markdown to pdf using [pandoc](http://pandoc.org/). `build` extracts the command to execute from a comment in the file.
+`build` is like `Makefile` for single files.
+
+Instead of having to write a separate `Makefile`, `build` reads the build instructions from comments in the file itself. Therefore, you can distribute a file (or gist) by itself without a build script or `Makefile`.
 
 ## example
 
